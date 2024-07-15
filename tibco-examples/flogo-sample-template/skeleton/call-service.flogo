@@ -1,12 +1,12 @@
 {
     "imports": [
-        "github.com/project-flogo/flow",
-        "github.com/tibco/wi-contrib/contributions/General/activity/log",
-        "github.com/tibco/wi-contrib/contributions/General/activity/rest",
-        "github.com/tibco/wi-contrib/contributions/General/activity/httpresponse",
-        "github.com/project-flogo/contrib/activity/actreturn",
-        "rest_1 github.com/tibco/wi-contrib/contributions/General/trigger/rest",
-        "github.com/project-flogo/contrib/function/coerce"
+        "gitlab.com/project-flogo/flow",
+        "gitlab.com/tibco/wi-contrib/contributions/General/activity/log",
+        "gitlab.com/tibco/wi-contrib/contributions/General/activity/rest",
+        "gitlab.com/tibco/wi-contrib/contributions/General/activity/httpresponse",
+        "gitlab.com/project-flogo/contrib/activity/actreturn",
+        "rest_1 gitlab.com/tibco/wi-contrib/contributions/General/trigger/rest",
+        "gitlab.com/project-flogo/contrib/function/coerce"
     ],
     "name": "${{ values.name }}",
     "description": "${{ values.description }}",
@@ -45,7 +45,7 @@
                         "OutputValidation": false
                     },
                     "action": {
-                        "ref": "github.com/project-flogo/flow",
+                        "ref": "gitlab.com/project-flogo/flow",
                         "settings": {
                             "flowURI": "res://flow:GetData"
                         },
