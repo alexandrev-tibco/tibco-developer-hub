@@ -44,7 +44,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedHosts:
-              - github.com
+              - gitlab.com
 
   # This template has one simple sample step:
   steps:
