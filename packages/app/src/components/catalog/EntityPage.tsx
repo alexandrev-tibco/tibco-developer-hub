@@ -59,6 +59,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { PlatformApplicationDeploymentsCard } from '@internal/plugin-tibco-platform-plugin';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { EntityJenkinsContent } from '@backstage/plugin-jenkins';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -181,8 +182,8 @@ const serviceEntityPage = (
       <OverviewContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
+    <EntityLayout.Route path="/jenkins" title="Jenkins">
+      <EntityJenkinsContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">

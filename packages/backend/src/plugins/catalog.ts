@@ -1,6 +1,10 @@
 import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
 import { EntityProvider } from '@backstage/plugin-catalog-node';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
+import { GitLabDiscoveryProcessor, GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
+
+
+
 import {
   GithubEntityProvider,
   GithubOrgEntityProvider,
@@ -13,6 +17,9 @@ export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
+  builder.addProcessor(
+    GitLabDiscoveryProcessor.fromConfig(env.config, { logger: env.logger }),
+  );
   const config = env.config;
   let catalogRefreshDelay: number | undefined = config?.getOptionalNumber(
     'catalogRefreshDelayInSec',
@@ -39,7 +46,20 @@ export default async function createPlugin(
     }
   }
 
+  const gitlabProvider = GitlabDiscoveryEntityProvider.fromConfig(env.config, {
+    logger: env.logger,
+    // optional: alternatively, use scheduler with schedule defined in app-config.yaml
+    schedule: env.scheduler.createScheduledTaskRunner({
+      frequency: { minutes: 30 },
+      timeout: { minutes: 3 },
+    }),
+    // optional: alternatively, use schedule
+    scheduler: env.scheduler
+  });
+  builder.addEntityProvider(gitlabProvider);
+
   builder.addProcessor(new ScaffolderEntitiesProcessor());
+
 
   builder.addEntityProvider(getGithubProviders(env));
   builder.addLocationAnalyzers(
