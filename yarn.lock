@@ -2526,6 +2526,48 @@
     luxon "^3.0.0"
     react-use "^17.2.4"
 
+"@backstage-community/plugin-sonarqube-backend@^0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-sonarqube-backend/-/plugin-sonarqube-backend-0.2.21.tgz#67cb23377b6e902d573bea952d60d706a6ddb683"
+  integrity sha512-Zw1YFr6TvecGOu0pA73/zhkylHQunYIrpXdXwYM8KWTUfZxPT6sRi9/YP/T7JUn9xIy2d4rNP8lN9/SmZWs9YA==
+  dependencies:
+    "@backstage/backend-common" "^0.23.3"
+    "@backstage/backend-plugin-api" "^0.7.0"
+    "@backstage/config" "^1.2.0"
+    "@backstage/errors" "^1.2.4"
+    "@types/express" "*"
+    express "^4.18.1"
+    express-promise-router "^4.1.0"
+    node-fetch "^2.6.7"
+    yn "^5.0.0"
+
+"@backstage-community/plugin-sonarqube-react@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-sonarqube-react/-/plugin-sonarqube-react-0.1.17.tgz#3494bed4c4d9fdc33145dad57e6cd4bcea77b31c"
+  integrity sha512-IM2KYCwTBHjw8yIhSUVjAlyyp0hHfuvwITedOlYz2pTS4YnPHC5ZwERNqQQb8VKTYv8vwsa12XL8gHsuZBPfcQ==
+  dependencies:
+    "@backstage/catalog-model" "^1.5.0"
+    "@backstage/core-plugin-api" "^1.9.3"
+
+"@backstage-community/plugin-sonarqube@^0.7.19":
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-sonarqube/-/plugin-sonarqube-0.7.19.tgz#762ee18ee88e70df565b230ab4741caf98d1698b"
+  integrity sha512-zQqMNQ+Zh2Lv2hbyUhrEMLzNSEwOB7nAtnUJa7MG+gcZbu/WPJMJjzIqm5+bnmpoH+0FLAy25Tnmlop+bdUvdw==
+  dependencies:
+    "@backstage-community/plugin-sonarqube-react" "^0.1.17"
+    "@backstage/catalog-model" "^1.5.0"
+    "@backstage/core-components" "^0.14.9"
+    "@backstage/core-plugin-api" "^1.9.3"
+    "@backstage/plugin-catalog-react" "^1.12.2"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/styles" "^4.10.0"
+    "@types/react" "^16.13.1 || ^17.0.0 || ^18.0.0"
+    cross-fetch "^4.0.0"
+    luxon "^3.0.0"
+    rc-progress "4.0.0"
+    react-use "^17.2.4"
+
 "@backstage/app-defaults@^1.5.3":
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@backstage/app-defaults/-/app-defaults-1.5.3.tgz#2120c0e96320867c99f49e1e05dc637dc3aab85b"
@@ -3973,7 +4015,7 @@
     yaml "^2.0.0"
     zen-observable "^0.10.0"
 
-"@backstage/plugin-catalog-react@^1.11.3", "@backstage/plugin-catalog-react@^1.12.1":
+"@backstage/plugin-catalog-react@^1.11.3", "@backstage/plugin-catalog-react@^1.12.1", "@backstage/plugin-catalog-react@^1.12.2":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-catalog-react/-/plugin-catalog-react-1.12.2.tgz#0ec2c3fbe6a5970e498167e06fa55ddf83a2d939"
   integrity sha512-YZ5Xec+wCR21lfnpUEtUIRnFGbGnpcqwzmXxcnF+n/sZydcgfig4d/N0gq2OuuTQnoX5O9NAhy+v5VdRzHNs5g==
@@ -11038,6 +11080,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
 "app@link:packages/app":
   version "1.2.0"
   dependencies:
+    "@backstage-community/plugin-sonarqube" "^0.7.19"
     "@backstage/app-defaults" "^1.5.3"
     "@backstage/catalog-model" "^1.4.5"
     "@backstage/cli" "^0.26.2"
@@ -14639,7 +14682,7 @@ express-session@^1.17.1:
     safe-buffer "5.2.1"
     uid-safe "~2.1.5"
 
-express@^4.17.1, express@^4.17.3, express@^4.18.2:
+express@^4.17.1, express@^4.17.3, express@^4.18.1, express@^4.18.2:
   version "4.19.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.19.2.tgz#e25437827a3aa7f2a827bc8171bbbb664a356465"
   integrity sha512-5T6nhjsT+EOMzuck8JjBHARTHfMht0POzlA60WV2pMD3gyXw2LZnZ+ueGdNxG+0calOJcWKbpFcuzLZ91YWq9Q==
@@ -21520,6 +21563,15 @@ rc-progress@3.5.1:
     classnames "^2.2.6"
     rc-util "^5.16.1"
 
+rc-progress@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/rc-progress/-/rc-progress-4.0.0.tgz#5382147d9add33d3a5fbd264001373df6440e126"
+  integrity sha512-oofVMMafOCokIUIBnZLNcOZFsABaUw8PPrf1/y0ZBvKZNpOiu5h4AO9vv11Sw0p4Hb3D0yGWuEattcQGtNJ/aw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    rc-util "^5.16.1"
+
 rc-util@^5.16.1:
   version "5.39.1"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.39.1.tgz#7bca4fb55e20add0eef5c23166cd9f9e5f51a8a1"
@@ -25453,6 +25505,11 @@ yn@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yn/-/yn-4.0.0.tgz#611480051ea43b510da1dfdbe177ed159f00a979"
   integrity sha512-huWiiCS4TxKc4SfgmTwW1K7JmXPPAmuXWYy4j9qjQo4+27Kni8mGhAAi1cloRWmBe2EqcLgt3IGqQoRL/MtPgg==
+
+yn@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/yn/-/yn-5.0.0.tgz#63fc2e2e0056cf294397eed6ad4a3fbdf707f26f"
+  integrity sha512-+l37+9TyGEsyxGLaTg6QgYy5KnOp74ZZl4dPFLQpBWSkO99uBC5jnS0pOGwXFViPbiaEtWbParH2KrgWWF2duQ==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
