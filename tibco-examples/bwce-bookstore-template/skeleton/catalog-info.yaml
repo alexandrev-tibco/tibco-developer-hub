@@ -7,6 +7,8 @@ metadata:
     gitlab.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: ${{values.destination.repo}}
+    jenkins.io/job-full-name: ${{values.name}}/master
+    sonarqube.org/project-key: ${{values.name}}
 spec:
   type: service
   lifecycle: development
