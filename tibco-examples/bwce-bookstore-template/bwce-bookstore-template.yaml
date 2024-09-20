@@ -51,7 +51,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedHosts:
-              - dev.azure.com
+              - gitlab.com
 
   # This template is meant to be used on top of an existing template.
   # By adding the following and fetching from an absolute URL you can
@@ -71,7 +71,7 @@ spec:
 
     - id: publish
       name: Publish
-      action: publish:azure
+      action: publish:gitlab
       input:
         allowedHosts: ['gitlab.com']
         description: This is ${{ parameters.name }}
