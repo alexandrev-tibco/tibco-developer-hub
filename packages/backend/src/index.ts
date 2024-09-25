@@ -107,6 +107,4 @@ backend.add(import('@backstage-community/plugin-sonarqube-backend'));
 //jenkins plugin
 backend.add(import('@backstage-community/plugin-jenkins-backend'));
 
-//integration gitlab catalog
-backend.add(import('@backstage/plugin-catalog-backend/alpha'));
 backend.start();
