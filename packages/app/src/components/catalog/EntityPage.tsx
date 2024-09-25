@@ -59,6 +59,8 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { PlatformApplicationDeploymentsCard } from '@internal/plugin-tibco-platform-plugin';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { EntityJenkinsContent } from '@backstage/plugin-jenkins';
+import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -165,10 +167,10 @@ const OverviewContent = () => {
           </Grid>
         </EntitySwitch.Case>
       </EntitySwitch>
-      <Grid item md={4} xs={12}>
+      <Grid item md={3} xs={12}>
         <EntityLinksCard />
-      </Grid>
-      <Grid item md={8} xs={12}>
+      </Grid> 
+      <Grid item md={6} xs={12}>
         <EntityHasSubcomponentsCard variant="gridItem" />
       </Grid>
     </Grid>
@@ -181,8 +183,21 @@ const serviceEntityPage = (
       <OverviewContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
+    <EntityLayout.Route path="/cicd" title="CI/CD">
+    <>
+    <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={5}>
+        <EntitySonarQubeCard variant="gridItem" />
+        </Grid>
+        <Grid item md={7  }/>
+      </Grid>
+    <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={12}>
+        <EntityJenkinsContent />
+        </Grid>
+      </Grid>
+    </>
+    
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
