@@ -32,6 +32,7 @@ import search from './plugins/search';
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+import azureDevOps from './plugins/azure-devops';
 // import { createAuthMiddleware } from './plugins/authMiddleware';
 
 function makeCreateEnv(config: Config) {
@@ -89,7 +90,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const healthcheckEnv = useHotMemoize(module, () => createEnv('healthcheck'));
-
+  const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
   /*  const authMiddleware = await createAuthMiddleware(config);
 
   const apiRouter = Router();
@@ -110,7 +111,7 @@ async function main() {
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/search', await search(searchEnv));
-
+  apiRouter.use('/azure-devops', await azureDevOps(azureDevOpsEnv));
   // // // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
 

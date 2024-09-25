@@ -29,6 +29,14 @@ import {
   EntityRelationWarning,
 } from '@backstage/plugin-catalog';
 import {
+  EntityAzurePullRequestsContent,
+  EntityAzurePipelinesContent,
+  isAzureDevOpsAvailable,
+  EntityAzureGitTagsContent,
+  isAzurePipelinesAvailable,
+  EntityAzureReadmeCard,
+} from '@backstage-community/plugin-azure-devops';
+import {
   isGithubActionsAvailable,
   EntityGithubActionsContent,
 } from '@backstage/plugin-github-actions';
@@ -72,8 +80,8 @@ const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
   // You can for example enforce that all components of type 'service' should use GitHubActions
   <EntitySwitch>
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <EntityGithubActionsContent />
+    <EntitySwitch.Case if={isAzurePipelinesAvailable}>
+     <EntityAzurePipelinesContent defaultLimit={25} />
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -179,6 +187,14 @@ const serviceEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       <OverviewContent />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route if={isAzureDevOpsAvailable} path="/pull-requests" title="Pull Requests">
+      <EntityAzurePullRequestsContent defaultLimit={25} />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route if={isAzureDevOpsAvailable} path="/git-tags" title="Git Tags">
+      <EntityAzureGitTagsContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">

@@ -7,6 +7,7 @@
     "role": "frontend"
   },
   "dependencies": {
+    "@backstage-community/plugin-azure-devops": "^0.4.10",
     "@backstage/app-defaults": "^1.5.3",
     "@backstage/catalog-model": "^1.4.5",
     "@backstage/cli": "^0.26.2",
