@@ -15,7 +15,7 @@
     "clean": "backstage-cyarn li package clean"
   },
   "dependencies": {
-    "@backstage-community/plugin-jenkins-backend": "^0.6.0",
+    "@backstage-community/plugin-jenkins-backend": "0.4.9",
     "@backstage-community/plugin-sonarqube-backend": "^0.2.23",
     "@backstage/backend-app-api": "^0.8.0",
     "@backstage/backend-common": "^0.23.2",

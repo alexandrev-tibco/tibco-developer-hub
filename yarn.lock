@@ -2072,21 +2072,21 @@
     luxon "^3.0.0"
     react-use "^17.2.4"
 
-"@backstage-community/plugin-jenkins-backend@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-jenkins-backend/-/plugin-jenkins-backend-0.6.0.tgz#a43c9414033ffd827678fa25ad1ce387b0778e5f"
-  integrity sha512-pVdjKBpyuPJtgPa6fTSXTV91C1LxcSCUIhWToPbsERxpSiTYYWeZ5MCqgD3OAV9eef6JzuVnRkX5pJBynN5bVQ==
+"@backstage-community/plugin-jenkins-backend@0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-jenkins-backend/-/plugin-jenkins-backend-0.4.9.tgz#f99afc7bfaf462297aaea259d1219148806d452a"
+  integrity sha512-0e23R69NsXkn+WypJvfzrUkyjr0GWC56HSyp8ZxwwbzPHyE0uWhGSUnTy6NAzbRUUlfLghmIRC/9EyUs6o76Ag==
   dependencies:
-    "@backstage-community/plugin-jenkins-common" "^0.1.29"
-    "@backstage/backend-common" "^0.24.0"
-    "@backstage/backend-plugin-api" "^0.8.0"
-    "@backstage/catalog-client" "^1.6.6"
-    "@backstage/catalog-model" "^1.6.0"
+    "@backstage-community/plugin-jenkins-common" "^0.1.28"
+    "@backstage/backend-common" "^0.23.3"
+    "@backstage/backend-plugin-api" "^0.7.0"
+    "@backstage/catalog-client" "^1.6.5"
+    "@backstage/catalog-model" "^1.5.0"
     "@backstage/config" "^1.2.0"
     "@backstage/errors" "^1.2.4"
-    "@backstage/plugin-catalog-node" "^1.12.5"
-    "@backstage/plugin-permission-common" "^0.8.1"
-    "@backstage/plugin-permission-node" "^0.8.1"
+    "@backstage/plugin-catalog-node" "^1.12.4"
+    "@backstage/plugin-permission-common" "^0.8.0"
+    "@backstage/plugin-permission-node" "^0.8.0"
     "@types/express" "^4.17.6"
     express "^4.17.1"
     express-promise-router "^4.1.0"
@@ -2094,7 +2094,7 @@
     node-fetch "^2.6.7"
     yn "^4.0.0"
 
-"@backstage-community/plugin-jenkins-common@^0.1.29":
+"@backstage-community/plugin-jenkins-common@^0.1.28", "@backstage-community/plugin-jenkins-common@^0.1.29":
   version "0.1.29"
   resolved "https://registry.yarnpkg.com/@backstage-community/plugin-jenkins-common/-/plugin-jenkins-common-0.1.29.tgz#f721cb877085cb5bc8c0ff543123fb6496971ccb"
   integrity sha512-Zjax4tQETqKFwouxpnZNrfKcXPkUrXGR8/wJvNSc/gCKgPlHiyayREXpQaRFjZp89tjA/edJBiEbkzqVGPPBOw==
@@ -3776,7 +3776,7 @@
     react-use "^17.2.4"
     yaml "^2.0.0"
 
-"@backstage/plugin-catalog-node@^1.12.4", "@backstage/plugin-catalog-node@^1.12.5", "@backstage/plugin-catalog-node@^1.12.6", "@backstage/plugin-catalog-node@^1.13.0":
+"@backstage/plugin-catalog-node@^1.12.4", "@backstage/plugin-catalog-node@^1.12.6", "@backstage/plugin-catalog-node@^1.13.0":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-catalog-node/-/plugin-catalog-node-1.13.0.tgz#a475fb9f44698d60ad311168385a6f345e15dea6"
   integrity sha512-lBSfpHXwyXDKDHs7xKm5dz94+HTOVfY8IHHk3tDzD4XdQynHWzI//F/tkSOq0WNKtyfhPzYTYyf0AFyuOHytRQ==
@@ -4006,7 +4006,7 @@
     zod "^3.22.4"
     zod-to-json-schema "^3.20.4"
 
-"@backstage/plugin-permission-node@^0.8.0", "@backstage/plugin-permission-node@^0.8.1", "@backstage/plugin-permission-node@^0.8.2", "@backstage/plugin-permission-node@^0.8.3":
+"@backstage/plugin-permission-node@^0.8.0", "@backstage/plugin-permission-node@^0.8.2", "@backstage/plugin-permission-node@^0.8.3":
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-permission-node/-/plugin-permission-node-0.8.3.tgz#3ae1b89dc21fba69541ede123ee025b34c691378"
   integrity sha512-YT9dD4pgfRJl98xxr8Ma83hEjQDf09kTulBuguosaPYl12X2hAEjx0s7Kupk+jIYm5VaF93WjrG+80dNsayqnQ==
