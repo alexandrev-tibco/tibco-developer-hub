@@ -59,7 +59,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { PlatformApplicationDeploymentsCard } from '@internal/plugin-tibco-platform-plugin';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { EntityJenkinsContent } from '@backstage/plugin-jenkins';
+import { EntityJenkinsContent } from '@backstage-community/plugin-jenkins';
 import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
 const techdocsContent = (
