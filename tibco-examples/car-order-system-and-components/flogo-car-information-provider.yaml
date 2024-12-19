@@ -8,7 +8,7 @@ metadata:
     - data-layer
     - flogo
   annotations:
-    gitlab.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service
