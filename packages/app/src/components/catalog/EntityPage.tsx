@@ -33,13 +33,8 @@ import {
   EntityAzurePipelinesContent,
   isAzureDevOpsAvailable,
   EntityAzureGitTagsContent,
-  isAzurePipelinesAvailable,
-  EntityAzureReadmeCard,
+  isAzurePipelinesAvailable
 } from '@backstage-community/plugin-azure-devops';
-import {
-  isGithubActionsAvailable,
-  EntityGithubActionsContent,
-} from '@backstage-community/plugin-github-actions';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,

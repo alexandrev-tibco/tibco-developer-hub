@@ -87,5 +87,6 @@ backend.add(import('@backstage-community/plugin-azure-devops-backend'));
 backend.add(import('@backstage/plugin-catalog-backend-module-azure'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-azure'));
 backend.add(import('@parfuemerie-douglas/scaffolder-backend-module-azure-pipelines'))
+backend.add(import('@parfuemerie-douglas/scaffolder-backend-module-azure-repositories'))
 
 backend.start();
