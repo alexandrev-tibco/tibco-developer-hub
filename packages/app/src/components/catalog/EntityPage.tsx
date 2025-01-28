@@ -59,6 +59,10 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { PlatformApplicationDeploymentsCard } from '@internal/plugin-tibco-platform-plugin';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import {
+  EntityKubernetesContent,
+  isKubernetesAvailable,
+} from '@backstage/plugin-kubernetes';
 import { EntityJenkinsContent } from '@backstage-community/plugin-jenkins';
 import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
@@ -167,10 +171,10 @@ const OverviewContent = () => {
           </Grid>
         </EntitySwitch.Case>
       </EntitySwitch>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <EntityLinksCard />
-      </Grid> 
-      <Grid item md={6} xs={12}>
+      </Grid>
+      <Grid item md={8} xs={12}>
         <EntityHasSubcomponentsCard variant="gridItem" />
       </Grid>
     </Grid>
@@ -199,7 +203,13 @@ const serviceEntityPage = (
     </>
     
     </EntityLayout.Route>
-
+    <EntityLayout.Route
+      path="/kubernetes"
+      title="Kubernetes"
+      if={isKubernetesAvailable}
+    >
+      <EntityKubernetesContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -237,7 +247,13 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route
+      path="/kubernetes"
+      title="Kubernetes"
+      if={isKubernetesAvailable}
+    >
+      <EntityKubernetesContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
