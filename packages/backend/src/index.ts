@@ -65,6 +65,7 @@ backend.add(
       router.get('/health', (_request, response) => {
         response.send({ status: 'ok' });
       });
+      // @ts-ignore
       app.use('/tibco/hub', router);
       const mw = (req: Request, _res: Response, next: NextFunction) => {
         if (!req.path.startsWith('/api/techdocs')) {
@@ -72,7 +73,9 @@ backend.add(
         }
         next();
       };
+      // @ts-ignore
       app.use('/tibco/hub', mw, routes);
+      // @ts-ignore
       app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());
