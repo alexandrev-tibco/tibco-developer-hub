@@ -22,34 +22,48 @@ backend:
 #       token: ${GITHUB_TOKEN}  #Enter your Github token here
 
 # Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
-# catalog:
-#   locations:
-#     - type: url
-#       target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
-#       rules:
-#         - allow:
-#             [
-#               Group,
-#               Template,
-#               System,
-#               Domain,
-#               Location,
-#               Component,
-#               API,
-#               Resource,
-#             ]
-
+# The example entities had been placed inside the 'tibco-examples' folder under the project root folder
+catalog:
+  rules:
+    - allow:
+        - Component
+        - API
+        - Location
+        - Template
+        - User
+        - Group
+        - Domain
+        - System
+        - Resource
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow:
+            [
+              Component,
+              API,
+              Location,
+              Template,
+              User,
+              Group,
+              Domain,
+              System,
+              Resource,
+            ]
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
   providers:
     guest: {}
-  # providers:
   # # needs to be enabled if you want to try out github auth
+  # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
   # # use this config to input the Github credentails directly for your local development use.
-  # github:
-  #   development:
-  #     clientId: ${AUTH_GITHUB_CLIENT_ID}
-  #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  #   github:
+  #     development:
+  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # Available providers: [github, guest]
   # # on local developer setups only github and guest auth providers are available
-  # # oauth2Proxy will only be available in Data plane deployments.
+  # # Oauthproxy will only be available in Dataplane deployments.
+  enableAuthProviders: [guest]
