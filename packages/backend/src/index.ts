@@ -158,6 +158,15 @@ backend.add(import('@backstage/plugin-search-backend'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
+//azure devops plugin
+backend.add(import('@backstage-community/plugin-azure-devops-backend'));
+backend.add(import('@backstage/plugin-catalog-backend-module-azure'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-azure'));
+backend.add(import('@parfuemerie-douglas/scaffolder-backend-module-azure-pipelines'))
+backend.add(import('@parfuemerie-douglas/scaffolder-backend-module-azure-repositories'))
+
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 backend.start();
+
+
