@@ -7,10 +7,10 @@ metadata:
     - store
     - rest
   links:
-    - url: ${{"https://github.com/" + values.destination.owner + "/" + values.destination.repo}}
+    - url: ${{"https://gitlab.com/" + values.destination.owner + "/" + values.destination.repo}}
       title: GitHub Repo
       icon: github
-#    - url: ${{"https://github.com/" + values.destination.owner + "/" + values.destination.repo + "/blob/master/api-spec/APISpec.yaml"}}
+#    - url: ${{"https://gitlab.com/" + values.destination.owner + "/" + values.destination.repo + "/blob/master/api-spec/APISpec.yaml"}}
 #      title: API Spec
 #      icon: code
 spec:
