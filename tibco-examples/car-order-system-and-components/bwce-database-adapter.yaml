@@ -14,7 +14,7 @@ metadata:
     - title: BWCE Documentation
       url: https://docs.tibco.com/products/tibco-businessworks-container-edition-2-9-0
   annotations:
-    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    gitlab.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service
@@ -34,10 +34,10 @@ metadata:
     - store
     - rest
   links:
-    - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples
+    - url: https://gitlab.com/TIBCO-Hub-Backstage/tibco-examples
       title: GitHub Repo
       icon: github
-    - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples/blob/master/sample-api.json
+    - url: https://gitlab.com/TIBCO-Hub-Backstage/tibco-examples/blob/master/sample-api.json
       title: API Spec
       icon: code
 spec:
