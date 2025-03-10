@@ -10,6 +10,7 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
 import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
+import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
 
 setGlobalDispatcher(new EnvHttpProxyAgent());
 
@@ -126,6 +127,7 @@ const scaffolderModuleCustomExtensions = createBackendModule({
         config: coreServices.rootConfig,
       },
       async init({ scaffolder, config }) {
+        scaffolder.addActions(new (executeShellCommandAction as  any)());
         scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
         scaffolder.addActions(new (ExtractParametersAction as any)());
         scaffolder.addActions(new (createYamlAction as any)());
