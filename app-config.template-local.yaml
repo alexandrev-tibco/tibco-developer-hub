@@ -22,35 +22,34 @@ backend:
 #       token: ${GITHUB_TOKEN}  #Enter your Github token here
 
 # Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
-# The example entities had been placed inside the 'tibco-examples' folder under the project root folder
-catalog:
-  locations:
-    - type: url
-      target: https://github.com/alexandrev-tibco/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
-      rules:
-        - allow:
-            [
-              Component,
-              API,
-              Location,
-              Template,
-              User,
-              Group,
-              Domain,
-              System,
-              Resource,
-            ]
+# catalog:
+#   locations:
+#     - type: url
+#       target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+#       rules:
+#         - allow:
+#             [
+#               Group,
+#               Template,
+#               System,
+#               Domain,
+#               Location,
+#               Component,
+#               API,
+#               Resource,
+#             ]
+
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
+  providers:
+    guest: {}
   # providers:
   # # needs to be enabled if you want to try out github auth
   # # use this config to input the Github credentails directly for your local development use.
-  #   github:
-  #     development:
-  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
-  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-  # Available providers: [github, guest]
+  # github:
+  #   development:
+  #     clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
   # # on local developer setups only github and guest auth providers are available
-  # # oauthproxy will only be available in Dataplane deployments.
-  enableAuthProviders: [guest]
+  # # oauth2Proxy will only be available in Data plane deployments.

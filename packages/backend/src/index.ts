@@ -1,6 +1,13 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import { createBackendModule } from '@backstage/backend-plugin-api';
+import proxy from 'express-http-proxy';
+import { DevHubConfig } from './config';
+import { WinstonLogger } from '@backstage/backend-defaults/rootLogger';
+// eslint-disable-next-line
+import { transports } from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+
 import {
   ExtractParametersAction,
   createYamlAction,
@@ -9,7 +16,6 @@ import {
   coreServices,
   createServiceFactory,
 } from '@backstage/backend-plugin-api';
-import { HostDiscovery } from '@backstage/backend-defaults/discovery';
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
 
@@ -17,11 +23,45 @@ const backend = createBackend();
 
 backend.add(
   rootHttpRouterServiceFactory({
-    configure: async ({ app, middleware, routes }) => {
+    configure: async ({ app, middleware, routes, logger }) => {
       if (process.env.NODE_ENV === 'development') {
         app.use(middleware.cors());
       }
       const router = Router();
+      let CP_Url = process.env.CP_URL;
+      if (CP_Url) {
+        if (CP_Url.endsWith('/')) {
+          CP_Url = CP_Url.slice(0, -1);
+        }
+        let CP_Url_copy = CP_Url;
+        const pattern = /^((http|https|ftp):\/\/)/;
+        if (!pattern.test(CP_Url)) {
+          if (CP_Url.startsWith('/')) {
+            CP_Url = CP_Url.slice(1);
+          }
+          CP_Url_copy = CP_Url;
+          CP_Url = `https://${CP_Url}`;
+        }
+        router.get(
+          DevHubConfig.wellKnownApiPath,
+          proxy(CP_Url, {
+            proxyReqPathResolver: () => {
+              return DevHubConfig.wellKnownApiPath;
+            },
+            // @ts-ignore
+            proxyReqOptDecorator: proxyReqOpts => {
+              proxyReqOpts.headers['x-cp-host'] = CP_Url_copy;
+              proxyReqOpts.rejectUnauthorized = false;
+              proxyReqOpts.method = 'GET';
+              return proxyReqOpts;
+            },
+          }),
+        );
+      } else {
+        logger.error(
+          'CP_URL not found as an environmental variable, .well-known api is not registered',
+        );
+      }
       router.get('/health', (_request, response) => {
         response.send({ status: 'ok' });
       });
@@ -33,28 +73,39 @@ backend.add(
         next();
       };
       app.use('/tibco/hub', mw, routes);
+      app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());
     },
   }),
 );
 
-const discoveryServiceFactory = createServiceFactory({
-  service: coreServices.discovery,
-  deps: {
-    config: coreServices.rootConfig,
-    pluginMd: coreServices.pluginMetadata,
-  },
-  factory({ config, pluginMd }) {
-    return HostDiscovery.fromConfig(config, {
-      basePath: pluginMd.getId() === 'proxy' ? '/api' : '/tibco/hub/api',
-    });
-  },
-});
+backend.add(
+  createServiceFactory({
+    service: coreServices.rootLogger,
+    deps: {},
+    async factory() {
+      if (process.env.NODE_ENV === 'development') {
+        return WinstonLogger.create({
+          transports: [new transports.Console()],
+        });
+      }
+      const transport: DailyRotateFile = new DailyRotateFile(
+        DevHubConfig.logFileConfig,
+      );
+      return WinstonLogger.create({
+        transports: [new transports.Console(), transport],
+      });
+    },
+  }),
+);
 
-backend.add(discoveryServiceFactory);
-backend.add(import('@backstage/plugin-app-backend/alpha'));
-backend.add(import('@backstage/plugin-proxy-backend/alpha'));
+backend.add(import('@backstage/plugin-app-backend'));
+backend.add(import('@backstage/plugin-proxy-backend'));
+backend.add(import('@backstage/plugin-scaffolder-backend'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
+
 const scaffolderModuleCustomExtensions = createBackendModule({
   pluginId: 'scaffolder', // name of the plugin that the module is targeting
   moduleId: 'custom-extensions',
@@ -62,7 +113,6 @@ const scaffolderModuleCustomExtensions = createBackendModule({
     env.registerInit({
       deps: {
         scaffolder: scaffolderActionsExtensionPoint,
-        config: coreServices.rootConfig,
       },
       async init({ scaffolder }) {
         scaffolder.addActions(new (ExtractParametersAction as any)());
@@ -72,39 +122,35 @@ const scaffolderModuleCustomExtensions = createBackendModule({
   },
 });
 backend.add(scaffolderModuleCustomExtensions);
-backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
-backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
-backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
-backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
+backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOauth2ProxyProvider'));
-backend.add(import('./authModuleGithubProvider'));
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
 // catalog plugin
-backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(
   import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
 );
+
+backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
 
 // permission plugin
-backend.add(import('@backstage/plugin-permission-backend/alpha'));
+backend.add(import('@backstage/plugin-permission-backend'));
 backend.add(
   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 );
 
 // search plugin
-backend.add(import('@backstage/plugin-search-backend/alpha'));
-backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
-backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
+backend.add(import('@backstage/plugin-search-backend'));
+backend.add(import('@backstage/plugin-search-backend-module-catalog'));
+backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
-//sonarqube plugin
-backend.add(import('@backstage-community/plugin-sonarqube-backend'));
-
-//jenkins plugin
-backend.add(import('@backstage-community/plugin-jenkins-backend'));
-
+// kubernetes
+backend.add(import('@backstage/plugin-kubernetes-backend'));
 backend.start();
