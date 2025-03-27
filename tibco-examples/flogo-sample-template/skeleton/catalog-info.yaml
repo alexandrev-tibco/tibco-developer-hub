@@ -9,7 +9,7 @@ metadata:
     - title: VSCode Editor (Folder)
       url: vscode://file/${{ values.localFolder }}
   annotations:
-    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+    gitlab.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service

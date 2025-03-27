@@ -63,6 +63,8 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityJenkinsContent } from '@backstage-community/plugin-jenkins';
+import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -185,8 +187,21 @@ const serviceEntityPage = (
       <OverviewContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
+    <EntityLayout.Route path="/cicd" title="CI/CD">
+    <>
+    <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={5}>
+        <EntitySonarQubeCard variant="gridItem" />
+        </Grid>
+        <Grid item md={7  }/>
+      </Grid>
+    <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={12}>
+        <EntityJenkinsContent />
+        </Grid>
+      </Grid>
+    </>
+    
     </EntityLayout.Route>
     <EntityLayout.Route
       path="/kubernetes"

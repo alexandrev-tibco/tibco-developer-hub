@@ -13,7 +13,7 @@ metadata:
     - title: Demos
       url: https://www.tibco.com/products/tibco-spotfire/learn/demos
   annotations:
-    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    gitlab.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service
