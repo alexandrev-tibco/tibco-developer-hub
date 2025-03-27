@@ -101,6 +101,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 
     python-$PYTHON_VERSION \
     # add tini for init process
     tini \
+    # add curl
+    curl \
     # add bash
     bash
 
