@@ -178,6 +178,7 @@ backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOauth2ProxyProvider'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
