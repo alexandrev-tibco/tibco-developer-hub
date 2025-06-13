@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
+@import '@fontsource/source-sans-pro';
 @import './themes/styles/button.css';
 body {
   /* You will need to configure the Source Sans Pro font */

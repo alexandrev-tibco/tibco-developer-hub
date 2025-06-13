@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { createBackend } from '@backstage/backend-defaults';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import { createBackendModule } from '@backstage/backend-plugin-api';
@@ -11,15 +15,8 @@ import { join } from 'path';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
-import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
 import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
-
-setGlobalDispatcher(new EnvHttpProxyAgent());
-
-import {
-  ExtractParametersAction,
-  createYamlAction,
-} from '@internal/backstage-plugin-scaffolder-backend-module-import-flow';
+import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
 import {
   coreServices,
   createServiceFactory,
@@ -27,9 +24,9 @@ import {
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
 
+setGlobalDispatcher(new EnvHttpProxyAgent());
+
 const backend = createBackend();
-
-
 
 backend.add(
   rootHttpRouterServiceFactory({
@@ -108,17 +105,16 @@ backend.add(
           'CP_URL not found as an environmental variable, .well-known api is not registered',
         );
       }
-      router.get('/health', (_request, response) => {
+      router.get('/health', (_request: Request, response: Response) => {
         response.send({ status: 'ok' });
       });
-      app.use('/tibco/hub', router);
+      app.use(router);
       const mw = (req: Request, _res: Response, next: NextFunction) => {
         if (!req.path.startsWith('/api/techdocs')) {
           req.headers.authorization = undefined;
         }
         next();
       };
-      app.use('/tibco/hub', mw, routes);
       app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());
@@ -148,6 +144,13 @@ backend.add(
 
 backend.add(import('@backstage/plugin-app-backend'));
 backend.add(import('@backstage/plugin-proxy-backend'));
+
+backend.add(
+  import('@internal/backstage-plugin-scaffolder-backend-module-import-flow'),
+);
+backend.add(
+  import('@internal/plugin-scaffolder-backend-module-tibco-git-repositories'),
+);
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
@@ -164,8 +167,6 @@ const scaffolderModuleCustomExtensions = createBackendModule({
       async init({ scaffolder, config }) {
         scaffolder.addActions(new (executeShellCommandAction as  any)());
         scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
-        scaffolder.addActions(new (ExtractParametersAction as any)());
-        scaffolder.addActions(new (createYamlAction as any)());
       },
     });
   },

@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.5.1'
+  developerHubVersion: '1.6.0'
 ```
 
 ## Doc Url
@@ -34,7 +34,7 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.5.1/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
@@ -57,6 +57,34 @@ walkThrough:
       tags: ['Tag1', 'Tag2']
       text: 'Some description'
       link: 'http://www.some-external-link.com/walk-through2'
+```
+
+## Template Groups
+
+Configuration for the template groups in template page when click on the Develop button
+
+Example config:
+
+```yaml
+templateGroups:
+  - name: templateGroup1
+    tagFilters: ['bwce', 'recommended']
+  - name: templateGroup2
+    tagFilters: ['flogo']
+```
+
+## Import Flow Groups
+
+Configuration for the import flow groups in import flow page when click on the Import Flow button
+
+Example config:
+
+```yaml
+importFlowGroups:
+  - name: importFlowGroup1
+    tagFilters: ['bwce', 'recommended']
+  - name: importFlowGroup2
+    tagFilters: ['flogo']
 ```
 
 ## Cp Link

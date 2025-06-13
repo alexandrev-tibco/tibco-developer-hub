@@ -1,8 +1,8 @@
-import { createTemplateAction, executeShellCommand, ExecuteShellCommandOptions } from '@backstage/plugin-scaffolder-node';
+import { createTemplateAction, executeShellCommand, ExecuteShellCommandOptions, TemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { resolveSafeChildPath } from '@backstage/backend-plugin-api';
 
-export function executeShellCommandAction() {
+export function executeShellCommandAction(): TemplateAction  {
   return createTemplateAction({
     id: 'custom:command:execute',
     schema: {
@@ -13,10 +13,10 @@ export function executeShellCommandAction() {
     },
 
     async handler(ctx) {
-      const scriptPath = resolveSafeChildPath(ctx.workspacePath, ctx.input.scriptPath);
+      const scriptPath = resolveSafeChildPath(ctx.workspacePath, ctx.input.scriptPath as string);
       const commandOptions: ExecuteShellCommandOptions = {
         command: "bash",
-        args: [scriptPath, ...ctx.input.arguments],
+        args: [scriptPath, ...(ctx.input.arguments as string[])],
 
         logStream: ctx.logStream
       }

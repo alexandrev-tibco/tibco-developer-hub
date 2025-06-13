@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import App from './App';
@@ -9,11 +13,16 @@ describe('App', () => {
       APP_CONFIG: [
         {
           data: {
-            app: { title: 'Test' },
+            app: { title: 'Test', developerHubVersion: '1.7.0' },
             backend: { baseUrl: 'http://localhost:7007' },
             techdocs: {
               storageUrl: 'http://localhost:7007/api/techdocs/static/docs',
             },
+            auth: {
+              enableAuthProviders: ['oauth2Proxy'],
+            },
+            cpLink: 'https://ptdev.cp1-my.cp-platform.dataplanes.pro',
+            tibcoDeveloperHubCustomAppVersion: 'test',
           },
           context: 'test',
         },
