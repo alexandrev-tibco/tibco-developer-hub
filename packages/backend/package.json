@@ -56,6 +56,7 @@
     "@internal/backstage-plugin-scaffolder-backend-module-import-flow": "workspace:^",
     "@internal/plugin-scaffolder-backend-module-execute-shell": "workspace:^",
     "@internal/plugin-scaffolder-backend-module-tibco-git-repositories": "workspace:^",
+    "@internal/plugin-scaffolder-backend-module-trigger-jenkins-job": "^1.7.0",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",
     "dockerode": "^3.3.1",

@@ -8053,7 +8053,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@internal/plugin-scaffolder-backend-module-trigger-jenkins-job@workspace:plugins/scaffolder-backend-module-trigger-jenkins-job":
+"@internal/plugin-scaffolder-backend-module-trigger-jenkins-job@npm:^1.7.0, @internal/plugin-scaffolder-backend-module-trigger-jenkins-job@workspace:plugins/scaffolder-backend-module-trigger-jenkins-job":
   version: 0.0.0-use.local
   resolution: "@internal/plugin-scaffolder-backend-module-trigger-jenkins-job@workspace:plugins/scaffolder-backend-module-trigger-jenkins-job"
   dependencies:
@@ -15826,6 +15826,7 @@ __metadata:
     "@internal/backstage-plugin-scaffolder-backend-module-import-flow": "workspace:^"
     "@internal/plugin-scaffolder-backend-module-execute-shell": "workspace:^"
     "@internal/plugin-scaffolder-backend-module-tibco-git-repositories": "workspace:^"
+    "@internal/plugin-scaffolder-backend-module-trigger-jenkins-job": "npm:^1.7.0"
     app: "link:../app"
     better-sqlite3: "npm:^9.0.0"
     dockerode: "npm:^3.3.1"

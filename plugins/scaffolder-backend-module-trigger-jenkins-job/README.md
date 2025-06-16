@@ -18,7 +18,7 @@ You need to configure the action in your backend:
 ## From your Backstage root directory
 
 ```
-yarn --cwd packages/backend add @internal/plugin-scaffolder-backend-module-trigger-jenkins-job@^1.4.0
+yarn --cwd packages/backend add @internal/plugin-scaffolder-backend-module-trigger-jenkins-job@^1.7.0
 ```
 
 Configure the action:
