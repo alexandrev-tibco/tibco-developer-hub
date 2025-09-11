@@ -104,7 +104,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 
     # add python for backstage techdocs
     python-$PYTHON_VERSION \
     # add tini for init process
-    tini
+    tini \
+    # add bash
+    bash
 
 WORKDIR /app
 
