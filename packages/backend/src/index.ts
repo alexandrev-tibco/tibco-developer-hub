@@ -5,6 +5,8 @@
 import { createBackend } from '@backstage/backend-defaults';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
+import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
+import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
 
 setGlobalDispatcher(new EnvHttpProxyAgent());
 
@@ -50,6 +52,7 @@ backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOidcProvider.ts'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
