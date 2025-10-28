@@ -25,6 +25,24 @@ backend.add(
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
+
+const scaffolderModuleCustomExtensions = createBackendModule({
+  pluginId: 'scaffolder', // name of the plugin that the module is targeting
+  moduleId: 'custom-extensions',
+  register(env) {
+    env.registerInit({
+      deps: {
+        scaffolder: scaffolderActionsExtensionPoint,
+        config: coreServices.rootConfig,
+      },
+      async init({ scaffolder, config }) {
+        scaffolder.addActions(new (executeShellCommandAction as  any)());
+        scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
+      },
+    });
+  },
+});
+backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
