@@ -6,7 +6,14 @@ import {
   ScmIntegrationsApi,
   scmIntegrationsApiRef,
   ScmAuth,
+  scmAuthApiRef,
 } from '@backstage/integration-react';
+import {
+  githubAuthApiRef,
+  gitlabAuthApiRef,
+  microsoftAuthApiRef,
+  bitbucketAuthApiRef,
+} from '@backstage/core-plugin-api';
 import {
   AnyApiFactory,
   ApiRef,
