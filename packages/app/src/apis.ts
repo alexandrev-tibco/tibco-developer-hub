@@ -97,15 +97,11 @@ export const apis: AnyApiFactory[] = [
   createApiFactory({
     api: platformOIDCAuthApiRef,
     deps: {
-      githubAuthApi: githubAuthApiRef,
-      gitlabAuthApi: gitlabAuthApiRef,
-      microsoftAuthApi: microsoftAuthApiRef,
-      bitbucketAuthApi: bitbucketAuthApiRef,
       discoveryApi: discoveryApiRef,
       oauthRequestApi: oauthRequestApiRef,
       configApi: configApiRef,
     },
-    factory: ({ githubAuthApi, gitlabAuthApi,microsoftAuthApi,bitbucketAuthApi,discoveryApi, oauthRequestApi, configApi }) =>
+    factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
       OAuth2.create({
         configApi,
         discoveryApi,

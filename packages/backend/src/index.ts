@@ -3,10 +3,15 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
+import { createBackendModule } from '@backstage/backend-plugin-api';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
 import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
 import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
+import {
+  coreServices,
+} from '@backstage/backend-plugin-api';
 
 setGlobalDispatcher(new EnvHttpProxyAgent());
 

@@ -11,12 +11,53 @@ import { idmJwtMiddlewareFunction } from './idmJwtMiddleware.ts';
 import { KeyvStore } from './cacheService.ts';
 import cookieParser from 'cookie-parser';
 import jwtDecode from 'jwt-decode';
+import { PLATFORM_COOKIE_DOMAIN } from './cookieConfigurer.ts';
 
 export default rootHttpRouterServiceFactory({
   configure: async ({ app, middleware, routes, logger, config }) => {
     if (process.env.NODE_ENV === 'development') {
       app.use(middleware.cors());
     }
+
+    const platformSuffix = PLATFORM_COOKIE_DOMAIN.slice(1);
+    app.use((req, res, next) => {
+      const originalSetHeader = res.setHeader.bind(res);
+      const host =
+        req.hostname || req.headers.host?.toString().split(':')[0] || '';
+
+      res.setHeader = ((name, value) => {
+        if (
+          typeof name === 'string' &&
+          name.toLowerCase() === 'set-cookie' &&
+          host &&
+          (host === platformSuffix || host.endsWith(`.${platformSuffix}`))
+        ) {
+          const applyDomain = (cookie: string) => {
+            if (!cookie.startsWith('connect.sid=')) {
+              return cookie;
+            }
+            if (/;\s*Domain=/i.test(cookie)) {
+              return cookie;
+            }
+            return `${cookie}; Domain=${PLATFORM_COOKIE_DOMAIN}`;
+          };
+
+          if (Array.isArray(value)) {
+            const updated = value.map(item =>
+              typeof item === 'string' ? applyDomain(item) : item,
+            );
+            return originalSetHeader(name, updated);
+          }
+          if (typeof value === 'string') {
+            return originalSetHeader(name, applyDomain(value));
+          }
+        }
+        return originalSetHeader(name, value);
+      }) as typeof res.setHeader;
+
+      next();
+    });
+
     const router = Router();
     router.use(express.json());
     router.use(express.urlencoded({ extended: true }));
