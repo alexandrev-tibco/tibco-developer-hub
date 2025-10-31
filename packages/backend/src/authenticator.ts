@@ -26,7 +26,7 @@ import { Request } from 'express';
 import { KeyvStore } from './cacheService.ts';
 import { deleteFromCache, getCPUrl, getTTL } from './utils.ts';
 import { RootConfigService } from '@backstage/backend-plugin-api';
-import { PLATFORM_COOKIE_DOMAIN } from './cookieConfigurer.ts';
+import { resolvePlatformCookieDomain } from './cookieConfigurer.ts';
 
 const HTTP_OPTION_TIMEOUT = 10000;
 const createHttpOptionsProvider =
@@ -54,32 +54,17 @@ const setCookieAccessToken = (
   tokenset: TokenSet,
   clear?: boolean,
 ) => {
-  const appBaseUrl = config.getString('app.baseUrl');          // e.g. https://aaa.com
-  const requestOrigin = req.get('origin');                     // e.g. https://devhub-all.dp.platform.alex
-  console.log("########  request origin for cookie:", requestOrigin);
-
-  const corsOriginConfig = config.getOptional('backend.cors.origin');
-  const corsOrigins =
-    typeof corsOriginConfig === 'string'
-      ? [corsOriginConfig]
-      : Array.isArray(corsOriginConfig)
-      ? corsOriginConfig.filter(
-          (value): value is string => typeof value === 'string',
-        )
-      : undefined;
-
-  const origin =
-    requestOrigin && corsOrigins?.includes(requestOrigin)
-      ? appBaseUrl
-      : requestOrigin || appBaseUrl;
-  console.log("########  origin for cookie:", origin);
-  const { hostname: originHost, protocol } = new URL(origin);
+  const origin = req.get('origin') || config.getString('app.baseUrl');
+  const { hostname: domain, protocol } = new URL(origin);
   const secure = protocol === 'https:';
-  const platformSuffix = PLATFORM_COOKIE_DOMAIN.slice(1);
+  const platformCookieDomain = resolvePlatformCookieDomain(config);
+  const platformSuffix = platformCookieDomain.startsWith('.')
+    ? platformCookieDomain.slice(1)
+    : platformCookieDomain;
   const cookieDomain =
-    originHost === platformSuffix || originHost.endsWith(`.${platformSuffix}`)
-      ? PLATFORM_COOKIE_DOMAIN
-      : originHost;
+    domain === platformSuffix || domain.endsWith(`.${platformSuffix}`)
+      ? platformCookieDomain
+      : domain;
   if (clear) {
     req.res?.clearCookie('cp-token', {
       domain: cookieDomain,

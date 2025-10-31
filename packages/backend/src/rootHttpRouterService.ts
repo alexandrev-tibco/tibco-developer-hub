@@ -11,7 +11,7 @@ import { idmJwtMiddlewareFunction } from './idmJwtMiddleware.ts';
 import { KeyvStore } from './cacheService.ts';
 import cookieParser from 'cookie-parser';
 import jwtDecode from 'jwt-decode';
-import { PLATFORM_COOKIE_DOMAIN } from './cookieConfigurer.ts';
+import { resolvePlatformCookieDomain } from './cookieConfigurer.ts';
 
 export default rootHttpRouterServiceFactory({
   configure: async ({ app, middleware, routes, logger, config }) => {
@@ -19,7 +19,10 @@ export default rootHttpRouterServiceFactory({
       app.use(middleware.cors());
     }
 
-    const platformSuffix = PLATFORM_COOKIE_DOMAIN.slice(1);
+    const platformCookieDomain = resolvePlatformCookieDomain(config);
+    const platformSuffix = platformCookieDomain.startsWith('.')
+      ? platformCookieDomain.slice(1)
+      : platformCookieDomain;
     app.use((req, res, next) => {
       const originalSetHeader = res.setHeader.bind(res);
       const host =
@@ -39,7 +42,7 @@ export default rootHttpRouterServiceFactory({
             if (/;\s*Domain=/i.test(cookie)) {
               return cookie;
             }
-            return `${cookie}; Domain=${PLATFORM_COOKIE_DOMAIN}`;
+            return `${cookie}; Domain=${platformCookieDomain}`;
           };
 
           if (Array.isArray(value)) {

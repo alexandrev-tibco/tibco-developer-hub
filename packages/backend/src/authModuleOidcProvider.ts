@@ -16,7 +16,10 @@ import {
   createOAuthProviderFactory,
 } from '@backstage/plugin-auth-node';
 import { oidcAuthenticator } from './authenticator.ts';
-import { platformCookieConfigurer } from './cookieConfigurer.ts';
+import {
+  createPlatformCookieConfigurer,
+  resolvePlatformCookieDomain,
+} from './cookieConfigurer.ts';
 
 export default createBackendModule({
   pluginId: 'auth',
@@ -48,10 +51,14 @@ export default createBackendModule({
           },
         });
 
+        const platformCookieDomain = resolvePlatformCookieDomain(config);
+        const cookieConfigurer = createPlatformCookieConfigurer(
+          platformCookieDomain,
+        );
         const cookieConfiguredFactory: AuthProviderFactory = ctx =>
           tibcoFactory({
             ...ctx,
-            cookieConfigurer: platformCookieConfigurer,
+            cookieConfigurer,
           });
 
         providers.registerProvider({

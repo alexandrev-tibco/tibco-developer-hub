@@ -4,21 +4,68 @@
 
 import { CookieConfigurer } from '@backstage/plugin-auth-node';
 
-export const PLATFORM_COOKIE_DOMAIN = '.platform.alex';
+type ConfigReader = {
+  getOptionalStringArray(key: string): string[] | undefined;
+};
 
+export const DEFAULT_PLATFORM_COOKIE_DOMAIN = '.platform.alex';
 
+const getCommonDomainFromHosts = (hosts: string[]): string | undefined => {
+  if (hosts.length === 0) {
+    return undefined;
+  }
+
+  const splitHosts = hosts.map(host => host.split('.'));
+  const maxCommonLength = Math.min(...splitHosts.map(parts => parts.length));
+  const suffix: string[] = [];
+
+  for (let offset = 1; offset <= maxCommonLength; offset += 1) {
+    const candidate = splitHosts[0][splitHosts[0].length - offset];
+    if (
+      splitHosts.every(parts => parts[parts.length - offset] === candidate)
+    ) {
+      suffix.unshift(candidate);
+    } else {
+      break;
+    }
+  }
+
+  return suffix.length > 0 ? suffix.join('.') : undefined;
+};
+
+export const resolvePlatformCookieDomain = (
+  config: ConfigReader,
+  fallback: string = DEFAULT_PLATFORM_COOKIE_DOMAIN,
+): string => {
+  const origins =
+    config.getOptionalStringArray('auth.experimentalExtraAllowedOrigins') ??
+    [];
+
+  const hosts = origins
+    .map(origin => {
+      try {
+        return new URL(origin).hostname.toLowerCase();
+      } catch {
+        return undefined;
+      }
+    })
+    .filter((host): host is string => Boolean(host));
+
+  const commonHost = getCommonDomainFromHosts(hosts);
+  if (commonHost) {
+    return `.${commonHost}`;
+  }
+
+  return fallback;
+};
 
 /**
  * Forces auth related cookies to use the shared platform domain while
- * preserving Backstage's default cookie behaviour. If the current app origin
- * is not part of the platform domain, the original domain is kept to avoid
- * breaking local environments.
+ * preserving Backstage's default cookie behaviour.
  */
-export const platformCookieConfigurer: CookieConfigurer = ({
-  callbackUrl,
-  providerId,
-  appOrigin,
-}) => {
+export const createPlatformCookieConfigurer = (
+  platformCookieDomain: string,
+): CookieConfigurer => ({ callbackUrl, providerId, appOrigin }) => {
   const { hostname: originalDomain, pathname, protocol } = new URL(callbackUrl);
   const secure = protocol === 'https:';
 
@@ -32,7 +79,7 @@ export const platformCookieConfigurer: CookieConfigurer = ({
     : `${pathname}/${providerId}`;
 
   return {
-    domain: PLATFORM_COOKIE_DOMAIN,
+    domain: platformCookieDomain,
     path,
     secure,
     sameSite,
