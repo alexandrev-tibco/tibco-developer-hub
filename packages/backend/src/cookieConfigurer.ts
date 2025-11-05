@@ -6,6 +6,7 @@ import { CookieConfigurer } from '@backstage/plugin-auth-node';
 
 type ConfigReader = {
   getOptionalStringArray(key: string): string[] | undefined;
+  getString(key: string): string;
 };
 
 export const DEFAULT_PLATFORM_COOKIE_DOMAIN = '.platform.alex';
@@ -37,9 +38,11 @@ export const resolvePlatformCookieDomain = (
   config: ConfigReader,
   fallback: string = DEFAULT_PLATFORM_COOKIE_DOMAIN,
 ): string => {
+  const optionalOrigins = config.getOptionalStringArray(
+    'auth.experimentalExtraAllowedOrigins',
+  );
   const origins =
-    config.getOptionalStringArray('auth.experimentalExtraAllowedOrigins') ??
-    [];
+    optionalOrigins ?? [config.getString('app.baseUrl')];
 
   const hosts = origins
     .map(origin => {
