@@ -57,7 +57,7 @@ backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOidcProvider.ts'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
-backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
+backend.add(import('./authModuleGitlabCookieProvider.ts'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));

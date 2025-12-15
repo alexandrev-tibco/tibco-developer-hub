@@ -68,29 +68,11 @@ export default createBackendModule({
             cookieConfigurer,
           });
 
-          providers.registerProvider({
-            providerId: 'tibco-control-plane',
-            factory: createOAuthProviderFactory({
-              authenticator: oidcAuthenticator(config),
-              async signInResolver(info, ctx) {
-                if (!info.result.fullProfile.userinfo.email?.split('@')[0]) {
-                  throw new Error('Email not found in OIDC response');
-                }
-                const userRef = stringifyEntityRef({
-                  kind: 'User',
-                  name: info.result.fullProfile.userinfo.email.split('@')[0],
-                  namespace: DEFAULT_NAMESPACE,
-                });
-                return ctx.issueToken({
-                  claims: {
-                    sub: userRef,
-                    ent: [userRef],
-                  },
-                });
-              },
-            }),
-          });
-        }
+        providers.registerProvider({
+          providerId: 'tibco-control-plane',
+          factory: cookieConfiguredFactory,
+        });
+      }
       },
     });
   },
