@@ -26,6 +26,7 @@ import { Request } from 'express';
 import { KeyvStore } from './cacheService.ts';
 import { deleteFromCache, getCPUrl, getTTL } from './utils.ts';
 import { RootConfigService } from '@backstage/backend-plugin-api';
+import { resolvePlatformCookieDomain } from './cookieConfigurer.ts';
 
 const HTTP_OPTION_TIMEOUT = 10000;
 const createHttpOptionsProvider =
@@ -56,9 +57,17 @@ const setCookieAccessToken = (
   const origin = req.get('origin') || config.getString('app.baseUrl');
   const { hostname: domain, protocol } = new URL(origin);
   const secure = protocol === 'https:';
+  const platformCookieDomain = resolvePlatformCookieDomain(config);
+  const platformSuffix = platformCookieDomain.startsWith('.')
+    ? platformCookieDomain.slice(1)
+    : platformCookieDomain;
+  const cookieDomain =
+    domain === platformSuffix || domain.endsWith(`.${platformSuffix}`)
+      ? platformCookieDomain
+      : domain;
   if (clear) {
     req.res?.clearCookie('cp-token', {
-      domain,
+      domain: cookieDomain,
       httpOnly: true,
       secure,
       sameSite: 'strict',
@@ -71,7 +80,7 @@ const setCookieAccessToken = (
       expires: tokenset.expires_at
         ? new Date(tokenset.expires_at * 1000)
         : undefined,
-      domain,
+      domain: cookieDomain,
       httpOnly: true,
       secure,
       sameSite: 'strict',

@@ -3,8 +3,15 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
+import { createBackendModule } from '@backstage/backend-plugin-api';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
+import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
+import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
+import {
+  coreServices,
+} from '@backstage/backend-plugin-api';
 
 setGlobalDispatcher(new EnvHttpProxyAgent());
 
@@ -25,6 +32,24 @@ backend.add(
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
+
+const scaffolderModuleCustomExtensions = createBackendModule({
+  pluginId: 'scaffolder', // name of the plugin that the module is targeting
+  moduleId: 'custom-extensions',
+  register(env) {
+    env.registerInit({
+      deps: {
+        scaffolder: scaffolderActionsExtensionPoint,
+        config: coreServices.rootConfig,
+      },
+      async init({ scaffolder, config }) {
+        scaffolder.addActions(new (executeShellCommandAction as  any)());
+        scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
+      },
+    });
+  },
+});
+backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
@@ -32,6 +57,7 @@ backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOidcProvider.ts'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+backend.add(import('./authModuleGitlabCookieProvider.ts'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
