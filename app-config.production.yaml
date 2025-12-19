@@ -81,7 +81,24 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 catalog:
-  locations: []
+  # Overrides the default list locations from app-config.yaml as these contain example data.
+  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
+  # on how to get entities into the catalog.
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow:
+            [
+              Group,
+              Template,
+              System,
+              Domain,
+              Location,
+              Component,
+              API,
+              Resource,
+            ]
   rules:
     - allow:
         [Group, Template, System, Domain, Location, Component, API, Resource]
@@ -130,7 +147,7 @@ scaffolder:
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 essentialLocations:
-  runScheduler: true,
+  runScheduler: true # Set to false to disable periodic updates
   frequencyInMinutes: 120
   locations:
     - type: url
