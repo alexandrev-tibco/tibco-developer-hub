@@ -101,7 +101,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 
     apk --no-cache add git \
     nodejs=$NODE_VERSION \
     python3=$PYTHON_VERSION py3-pip \
-    tini
+    tini \
+    # add bash
+    bash
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV

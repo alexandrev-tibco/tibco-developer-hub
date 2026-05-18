@@ -59,7 +59,7 @@ import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { TemplateListPage } from '@internal/backstage-plugin-import-flow';
-import { catalogMessages } from './translations/catalogIndex';
+import { catalogMessages,scaffolderMessages } from './translations/catalogIndex';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
   TemplateGroups,
@@ -145,7 +145,7 @@ const app = createApp({
   },
   __experimentalTranslations: {
     availableLanguages: ['en'],
-    resources: [catalogMessages],
+    resources: [catalogMessages,scaffolderMessages],
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
