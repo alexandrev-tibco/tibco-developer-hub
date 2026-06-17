@@ -24,8 +24,10 @@ ENV NODE_VERSION="24.14.1-r0"
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
-    apk add --no-cache nodejs=$NODE_VERSION yarn \
+    apk add --no-cache nodejs=$NODE_VERSION yarn git \
     cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev build-base
+
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 WORKDIR /app
 RUN chown -R nonroot:nonroot /app
@@ -101,7 +103,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 
     apk --no-cache add git \
     nodejs=$NODE_VERSION \
     python3=$PYTHON_VERSION py3-pip \
-    tini
+    tini \
+    # add bash
+    bash
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV

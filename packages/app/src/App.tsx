@@ -63,7 +63,7 @@ import {
   DataplaneSelectorExtension,
   CapabilitySelectorExtension,
 } from '@internal/plugin-tibco-platform-custom-form-fields';
-import { catalogMessages } from './translations/catalogIndex';
+import { catalogMessages, scaffolderMessages } from './translations/catalogIndex';
 import { coreComponentsMessages } from './translations/coreComponentsMessages';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
@@ -151,7 +151,7 @@ const app = createApp({
   },
   __experimentalTranslations: {
     availableLanguages: ['en'],
-    resources: [catalogMessages, coreComponentsMessages],
+    resources: [catalogMessages, coreComponentsMessages, scaffolderMessages],
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {

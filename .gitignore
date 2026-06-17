@@ -72,3 +72,6 @@ environment.sh
 
 # Local environment variables
 /.env.yarn
+
+# Local scripts (not pushed)
+/scripts/local/
