@@ -4,6 +4,7 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { TranslationBlueprint } from '@backstage/plugin-app-react';
 import { catalogTranslationRef } from '@backstage/plugin-catalog';
+import { scaffolderTranslationRef } from '@backstage/plugin-scaffolder/alpha';
 
 export const catalogTranslations = createFrontendModule({
   pluginId: 'app',
@@ -15,6 +16,17 @@ export const catalogTranslations = createFrontendModule({
           ref: catalogTranslationRef,
           messages: {
             'indexPage.createButtonTitle': 'Develop',
+          },
+        }),
+      },
+    }),
+    TranslationBlueprint.make({
+      name: 'scaffolder-overrides',
+      params: {
+        resource: createTranslationMessages({
+          ref: scaffolderTranslationRef,
+          messages: {
+            'fields.gitlabRepoPicker.owner.title': 'Gitlab Subgroup Path',
           },
         }),
       },

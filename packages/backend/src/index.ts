@@ -4,6 +4,9 @@
 
 import './backstageGlobalProxy.ts';
 import { createBackend } from '@backstage/backend-defaults';
+import { createBackendModule } from '@backstage/backend-plugin-api';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node';
+import { executeShellCommandAction } from '@internal/plugin-scaffolder-backend-module-execute-shell';
 
 const backend = createBackend();
 
@@ -28,6 +31,22 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 backend.add(
   import('@backstage/plugin-scaffolder-backend-module-notifications'),
 );
+
+const scaffolderModuleCustomExtensions = createBackendModule({
+  pluginId: 'scaffolder', // name of the plugin that the module is targeting
+  moduleId: 'custom-extensions',
+  register(env) {
+    env.registerInit({
+      deps: {
+        scaffolder: scaffolderActionsExtensionPoint,
+      },
+      async init({ scaffolder }) {
+        scaffolder.addActions(new (executeShellCommandAction as any)());
+      },
+    });
+  },
+});
+backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
@@ -35,6 +54,7 @@ backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('./authModuleOidcProvider.ts'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+backend.add(import('./authModuleGitlabCookieProvider.ts'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
@@ -68,6 +88,9 @@ backend.add(import('@backstage/plugin-signals-backend'));
 // mcp actions plugin
 backend.add(import('@backstage/plugin-mcp-actions-backend'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
+backend.add(
+  import('@internal/plugin-scaffolder-backend-module-trigger-jenkins-job'),
+);
 backend.add(import('@internal/plugin-scaffolder-backend-module-platform-api'));
 backend.add(import('./addEssentialLocation'));
 backend.add(import('./cachePlugin.ts'));
